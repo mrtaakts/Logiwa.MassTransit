@@ -1,7 +1,10 @@
+using Logiwa.MassTransit.ConsumeAPI.Services;
+using MassTransit;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -12,7 +15,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Logiwa.MassTransit.API
+namespace Logiwa.MassTransit.ConsumeAPI
 {
     public class Startup
     {
@@ -28,9 +31,28 @@ namespace Logiwa.MassTransit.API
         {
 
             services.AddControllers();
+            services.AddScoped<IOrderService, OrderService>();
+            services.AddDbContext<AppDbContext>(options =>
+                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"))); // DbContext
+            services.AddMassTransit(config =>
+            {
+                config.AddConsumer<OrderConsumer>();
+                config.UsingRabbitMq((context, cfg) =>
+                {
+                    
+                    cfg.Host("localhost");
+                      cfg.ReceiveEndpoint("order-queue", c =>
+                       {
+                           c.ConfigureConsumer<OrderConsumer>(context);
+                       });
+                    
+                });
+            });
+
+            services.AddMassTransitHostedService();
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Logiwa.MassTransit.API", Version = "v1" });
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Logiwa.MassTransit.ConsumeAPI", Version = "v1" });
             });
         }
 
@@ -41,7 +63,7 @@ namespace Logiwa.MassTransit.API
             {
                 app.UseDeveloperExceptionPage();
                 app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Logiwa.MassTransit.API v1"));
+                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Logiwa.MassTransit.ConsumeAPI v1"));
             }
 
             app.UseHttpsRedirection();
