@@ -11,7 +11,7 @@ namespace Logiwa.MassTransit.Test
     {
 
         [Test]
-        public async Task Should_consume_the_order_submitted_event()
+        public async Task Should_consume_The_Order()
         {
             var harness = new InMemoryTestHarness();
             var consumerHarness = harness.Consumer<OrderConsumer>();
@@ -38,14 +38,23 @@ namespace Logiwa.MassTransit.Test
                 await harness.Stop();
             }
         }
+
+       
     }
 
     public class OrderConsumer : IConsumer<SubmitOrder>
     {
         public async Task Consume(ConsumeContext<SubmitOrder> context)
         {
-            Console.WriteLine("Value: {0}", context.Message.ToString());
+                await context.RespondAsync<NotificationResult>(new
+                {
+                    OrderId = context.Message.Id,
+                    message = "Message",
+                    CreatedDate = DateTime.Now
+
+                });
         }
 
     }
+
 }

@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Logiwa.MassTransit.OrderService
+namespace Logiwa.MassTransit.OrderAPI
 {
     public class Program
     {

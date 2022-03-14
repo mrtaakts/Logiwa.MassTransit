@@ -10,20 +10,43 @@ namespace Logiwa.MassTransit.ConsumeAPI
 {
     public class OrderConsumer : IConsumer<SubmitOrder>
     {
-        private readonly IOrderService _orderService;
+        private readonly IMailService _mailService;
 
-        public OrderConsumer(IOrderService orderService)
+        public OrderConsumer(IMailService mailService)
         {
-            _orderService = orderService;
+            _mailService = mailService;
         }
 
         public async Task Consume(ConsumeContext<SubmitOrder> context)
         {
-            var resp = await _orderService.AddOrder(context.Message);
-            if(resp != 1) throw new InvalidOperationException("Order cannot added");
 
             Console.WriteLine("Value: {0}", context.Message.ToString());
+
+            if (context.Message.Id > 0)
+            {
+                await context.RespondAsync<NotificationResult>(new
+                {
+                    OrderId = context.Message.Id,
+                    message = "Order eklendi , E-posta gönderiliyor",
+                    CreatedDate = DateTime.Now
+
+                });
+                _mailService.SendMail(context.Message);
+            }
+            else
+            {
+                await context.RespondAsync<NotificationResult>(new
+                {
+                    OrderId = context.Message.Id,
+                    message = "Order eklenemedi",
+                    CreatedDate = DateTime.Now
+                });
+            }
+
+
+
         }
 
     }
+
 }

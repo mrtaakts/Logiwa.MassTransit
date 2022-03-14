@@ -1,10 +1,10 @@
 using Logiwa.MassTransit.ConsumeAPI.Services;
+using Logiwa.MassTransit.Models;
 using MassTransit;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -26,30 +26,31 @@ namespace Logiwa.MassTransit.ConsumeAPI
 
         public IConfiguration Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
 
             services.AddControllers();
-            services.AddScoped<IOrderService, OrderService>();
-            services.AddDbContext<AppDbContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"))); // DbContext
+            services.AddScoped<IMailService, MailService>();
+
+            // MassTransit DI
             services.AddMassTransit(config =>
             {
                 config.AddConsumer<OrderConsumer>();
                 config.UsingRabbitMq((context, cfg) =>
                 {
-                    
-                    cfg.Host("localhost");
-                      cfg.ReceiveEndpoint("order-queue", c =>
+
+                    cfg.Host(new Uri("rabbitmq://localhost/"));
+                    cfg.ReceiveEndpoint("LOrder", c =>
                        {
                            c.ConfigureConsumer<OrderConsumer>(context);
                        });
-                    
-                });
-            });
 
+                });
+
+            });
             services.AddMassTransitHostedService();
+            // MassTransit DI
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Logiwa.MassTransit.ConsumeAPI", Version = "v1" });

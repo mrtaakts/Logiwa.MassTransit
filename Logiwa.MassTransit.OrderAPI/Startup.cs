@@ -1,8 +1,13 @@
+using Logiwa.MassTransit.Models;
+using Logiwa.MassTransit.OrderAPI;
+using Logiwa.MassTransit.OrderAPI.Models;
+using Logiwa.MassTransit.OrderAPI.Services;
 using MassTransit;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -13,7 +18,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Logiwa.MassTransit.OrderService
+namespace Logiwa.MassTransit.OrderAPI
 {
     public class Startup
     {
@@ -24,41 +29,41 @@ namespace Logiwa.MassTransit.OrderService
 
         public IConfiguration Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
 
             services.AddControllers();
+            services.AddScoped<IOrderService, OrderService>();
 
-            services.AddMassTransit(config =>
+            services.AddDbContext<AppDbContext>(options =>
+                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"))); // DbContext
+
+            // MassTransit DI
+            services.AddMassTransit(x =>
             {
-                config.UsingRabbitMq((context, cfg) =>
-                {
-                    cfg.Host("localhost");
-                 /*   cfg.ReceiveEndpoint("order-queue", c =>
-                    {
-                        c.ConfigureConsumer<OrderConsumer>(context);
-                    });
-                 */
-                });
-            });
+                x.UsingRabbitMq((context, cfg) => cfg.Host("localhost"));
+          
+                var timeout = TimeSpan.FromSeconds(10);
+                var serviceAddress = new Uri("rabbitmq://localhost/LOrder");
 
-            services.AddMassTransitHostedService();
+                x.AddRequestClient<SubmitOrder>(serviceAddress, timeout);
+            });
+                services.AddMassTransitHostedService();
+            // MassTransit DI
 
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Logiwa.MassTransit.OrderService", Version = "v1" });
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Logiwa.MassTransit.OrderAPI", Version = "v1" });
             });
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
                 app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Logiwa.MassTransit.OrderService v1"));
+                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Logiwa.MassTransit.OrderAPI v1"));
             }
 
             app.UseHttpsRedirection();

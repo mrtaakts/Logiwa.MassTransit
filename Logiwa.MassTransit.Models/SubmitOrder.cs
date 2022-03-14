@@ -11,9 +11,9 @@ namespace Logiwa.MassTransit.Models
     {
         [JsonIgnore]
         public int Id { get; set; }
-        public string Name { get; set; }
         [JsonIgnore]
         public DateTime CreatedDate { get; set; } = DateTime.Now;
+        public string Name { get; set; }
 
         public override string ToString()
         {

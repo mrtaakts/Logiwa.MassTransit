@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Logiwa.MassTransit.ConsumeAPI
+namespace Logiwa.MassTransit.OrderAPI.Models
 {
     public class AppDbContext : DbContext
     {
