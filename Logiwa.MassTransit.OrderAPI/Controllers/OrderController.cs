@@ -18,22 +18,21 @@ namespace Logiwa.MassTransit.OrderAPI.Controllers
         readonly IRequestClient<SubmitOrder> _client;
         private readonly IOrderService _orderService;
 
-        public OrderController( IOrderService orderService,IRequestClient<SubmitOrder> client)
+        public OrderController(IOrderService orderService, IRequestClient<SubmitOrder> client)
         {
             _orderService = orderService;
             _client = client;
-           
+
         }
 
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] SubmitOrder order)
         {
             await _orderService.AddOrder(order);
-            //await _publishEndpoint.Publish<SubmitOrder>(order);
-            var response = await _client.GetResponse<NotificationResult>(order);
-            return Ok(response.Message.ToString());
+            var response = await _client.GetResponse<OrderResult>(order);
+            return Ok(response.Message);
         }
 
-     
+
     }
 }

@@ -46,7 +46,7 @@ namespace Logiwa.MassTransit.Test
     {
         public async Task Consume(ConsumeContext<SubmitOrder> context)
         {
-                await context.RespondAsync<NotificationResult>(new
+                await context.RespondAsync<OrderResult>(new
                 {
                     OrderId = context.Message.Id,
                     message = "Message",

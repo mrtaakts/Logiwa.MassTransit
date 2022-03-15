@@ -24,10 +24,12 @@ namespace Logiwa.MassTransit.ConsumeAPI
 
             if (context.Message.Id > 0)
             {
-                await context.RespondAsync<NotificationResult>(new
+                await context.RespondAsync<OrderResult>(new
+                OrderResult
                 {
                     OrderId = context.Message.Id,
-                    message = "Order eklendi , E-posta gönderiliyor",
+                    message = "Order eklendi. E-posta gönderiliyor",
+                    StatusCode = 200,
                     CreatedDate = DateTime.Now
 
                 });
@@ -35,18 +37,15 @@ namespace Logiwa.MassTransit.ConsumeAPI
             }
             else
             {
-                await context.RespondAsync<NotificationResult>(new
+                await context.RespondAsync<OrderResult>(new
+                OrderResult
                 {
                     OrderId = context.Message.Id,
                     message = "Order eklenemedi",
+                    StatusCode = 500,
                     CreatedDate = DateTime.Now
                 });
             }
-
-
-
         }
-
     }
-
 }
