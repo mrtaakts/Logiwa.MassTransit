@@ -8,7 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Logiwa.MassTransit.ConsumeAPI.Services
+namespace Logiwa.MassTransit.NotificationAPI.Services
 {
 
     public class MailService : IMailService

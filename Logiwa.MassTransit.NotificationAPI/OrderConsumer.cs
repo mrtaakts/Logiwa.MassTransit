@@ -1,4 +1,4 @@
-﻿using Logiwa.MassTransit.ConsumeAPI.Services;
+﻿using Logiwa.MassTransit.NotificationAPI.Services;
 using Logiwa.MassTransit.Models;
 using MassTransit;
 using System;
@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Logiwa.MassTransit.ConsumeAPI
+namespace Logiwa.MassTransit.NotificationAPI
 {
     public class OrderConsumer : IConsumer<SubmitOrder>
     {

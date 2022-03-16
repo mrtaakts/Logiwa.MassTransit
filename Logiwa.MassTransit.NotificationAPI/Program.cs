@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Logiwa.MassTransit.ConsumeAPI
+namespace Logiwa.MassTransit.NotificationAPI
 {
     public class Program
     {

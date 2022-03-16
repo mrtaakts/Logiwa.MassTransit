@@ -3,13 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31829.152
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Logiwa.MassTransit.ConsumeAPI", "Logiwa.MassTransit.ConsumeAPI\Logiwa.MassTransit.ConsumeAPI.csproj", "{DFB48007-0E3C-4E22-AC8B-8E1A6ACDDFE4}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Logiwa.MassTransit.Test", "Logiwa.MassTransit.Test\Logiwa.MassTransit.Test.csproj", "{22F79459-1402-4233-927B-5688EF847C00}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Logiwa.MassTransit.OrderAPI", "Logiwa.MassTransit.OrderAPI\Logiwa.MassTransit.OrderAPI.csproj", "{C913B47A-B1D3-486E-A811-3C8376FEBFAC}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Logiwa.MassTransit.Models", "Logiwa.MassTransit.Models\Logiwa.MassTransit.Models.csproj", "{E4B53963-09AC-4CA9-B29C-F8326CBE078C}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Logiwa.MassTransit.NotificationAPI", "Logiwa.MassTransit.NotificationAPI\Logiwa.MassTransit.NotificationAPI.csproj", "{FC336391-E024-42CE-BC11-D32FFA45FD83}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,10 +17,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{DFB48007-0E3C-4E22-AC8B-8E1A6ACDDFE4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{DFB48007-0E3C-4E22-AC8B-8E1A6ACDDFE4}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{DFB48007-0E3C-4E22-AC8B-8E1A6ACDDFE4}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{DFB48007-0E3C-4E22-AC8B-8E1A6ACDDFE4}.Release|Any CPU.Build.0 = Release|Any CPU
 		{22F79459-1402-4233-927B-5688EF847C00}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{22F79459-1402-4233-927B-5688EF847C00}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{22F79459-1402-4233-927B-5688EF847C00}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -33,6 +29,10 @@ Global
 		{E4B53963-09AC-4CA9-B29C-F8326CBE078C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E4B53963-09AC-4CA9-B29C-F8326CBE078C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E4B53963-09AC-4CA9-B29C-F8326CBE078C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FC336391-E024-42CE-BC11-D32FFA45FD83}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FC336391-E024-42CE-BC11-D32FFA45FD83}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FC336391-E024-42CE-BC11-D32FFA45FD83}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FC336391-E024-42CE-BC11-D32FFA45FD83}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
