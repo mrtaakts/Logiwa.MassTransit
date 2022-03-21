@@ -24,11 +24,11 @@ namespace Logiwa.MassTransit.NotificationAPI
 
             if (context.Message.Id > 0)
             {
-                await context.RespondAsync<OrderResult>(new
-                OrderResult
+                await context.RespondAsync<OrderResult>(
+                new OrderResult
                 {
                     OrderId = context.Message.Id,
-                    message = "Order eklendi. E-posta gönderiliyor",
+                    message = "Order added Sending email.",
                     StatusCode = 200,
                     CreatedDate = DateTime.Now
 
@@ -37,11 +37,11 @@ namespace Logiwa.MassTransit.NotificationAPI
             }
             else
             {
-                await context.RespondAsync<OrderResult>(new
-                OrderResult
+                await context.RespondAsync<OrderResult>(
+                new OrderResult
                 {
                     OrderId = context.Message.Id,
-                    message = "Order eklenemedi",
+                    message = "Failed to add order",
                     StatusCode = 500,
                     CreatedDate = DateTime.Now
                 });

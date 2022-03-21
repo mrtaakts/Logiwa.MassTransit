@@ -38,8 +38,6 @@ namespace Logiwa.MassTransit.Test
                 await harness.Stop();
             }
         }
-
-       
     }
 
     public class OrderConsumer : IConsumer<SubmitOrder>

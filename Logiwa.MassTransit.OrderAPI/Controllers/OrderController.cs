@@ -24,7 +24,6 @@ namespace Logiwa.MassTransit.OrderAPI.Controllers
             _client = client;
 
         }
-
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] SubmitOrder order)
         {

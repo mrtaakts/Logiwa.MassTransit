@@ -8,6 +8,6 @@ namespace Logiwa.MassTransit.NotificationAPI.Services
 {
     public interface IMailService
     {
-        public string SendMail(SubmitOrder order);
+        public void SendMail(SubmitOrder order);
     }
 }

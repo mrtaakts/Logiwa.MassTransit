@@ -20,10 +20,9 @@ namespace Logiwa.MassTransit.NotificationAPI.Services
             _configuration = configuration;
         }
 
-        public string SendMail(SubmitOrder order)
+        public void SendMail(SubmitOrder order)
         {
             MimeMessage mail = new MimeMessage();
-
             MailboxAddress to = new MailboxAddress("User",
             _configuration["Smtp:to"]);
             mail.To.Add(to);
@@ -32,7 +31,7 @@ namespace Logiwa.MassTransit.NotificationAPI.Services
             _configuration["Smtp:from"]);
             mail.From.Add(from);
 
-            mail.Subject = "Order email";
+            mail.Subject = "Logiwa MassTransit";
 
             BodyBuilder bodyBuilder = new BodyBuilder();
             bodyBuilder.TextBody = order.ToString();
@@ -42,11 +41,10 @@ namespace Logiwa.MassTransit.NotificationAPI.Services
             smtp.Connect(_configuration["Smtp:link"], 587, false);
             smtp.Authenticate(_configuration["Smtp:username"], _configuration["Smtp:password"]);
 
-            var resp = smtp.Send(mail);
+            smtp.Send(mail);
             smtp.Disconnect(true);
             smtp.Dispose();
 
-            return "Mail Gönderildi";
         }
     }
 }

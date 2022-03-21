@@ -13,9 +13,6 @@ namespace Logiwa.MassTransit.Models
         public int StatusCode { get; set; }
         public DateTime CreatedDate { get; set;}
 
-        public override string ToString()
-        {
-            return $"StatusCode: {StatusCode} , OrderId: {OrderId} {message}";
-        }
+    
     }
 }

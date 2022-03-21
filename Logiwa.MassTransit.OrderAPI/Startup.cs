@@ -1,22 +1,15 @@
 using Logiwa.MassTransit.Models;
-using Logiwa.MassTransit.OrderAPI;
 using Logiwa.MassTransit.OrderAPI.Models;
 using Logiwa.MassTransit.OrderAPI.Services;
 using MassTransit;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Logiwa.MassTransit.OrderAPI
 {
@@ -42,11 +35,8 @@ namespace Logiwa.MassTransit.OrderAPI
             services.AddMassTransit(x =>
             {
                 x.UsingRabbitMq((context, cfg) => cfg.Host("localhost"));
-          
-                var timeout = TimeSpan.FromSeconds(10);
-                var serviceAddress = new Uri("rabbitmq://localhost/LOrder");
 
-                x.AddRequestClient<SubmitOrder>(serviceAddress, timeout);
+                x.AddRequestClient<SubmitOrder>(TimeSpan.FromSeconds(10));
             });
                 services.AddMassTransitHostedService();
             // MassTransit DI

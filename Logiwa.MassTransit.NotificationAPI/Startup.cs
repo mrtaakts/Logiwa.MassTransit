@@ -35,20 +35,20 @@ namespace Logiwa.MassTransit.NotificationAPI
             // MassTransit DI
             services.AddMassTransit(config =>
             {
-                config.AddConsumer<OrderConsumer>();
+                config.AddConsumer<OrderConsumer>(); //added Consumer
                 config.UsingRabbitMq((context, cfg) =>
                 {
 
-                    cfg.Host(new Uri("rabbitmq://localhost/"));
-                    cfg.ReceiveEndpoint("LOrder", c =>
+                    cfg.Host(new Uri("rabbitmq://localhost/")); 
+                    cfg.ReceiveEndpoint("LOrder", c =>          // queue
                        {
-                           c.ConfigureConsumer<OrderConsumer>(context);
+                           c.ConfigureConsumer<OrderConsumer>(context); 
                        });
 
                 });
 
             });
-            services.AddMassTransitHostedService();
+            services.AddMassTransitHostedService(); //automatically start and stop bus
             // MassTransit DI
 
             services.AddSwaggerGen(c =>
